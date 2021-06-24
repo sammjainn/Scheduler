@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../Styles/Teachers.css';
+import { Link } from 'react-router-dom';
 
 class Teachers extends Component {
   state = {
@@ -11,22 +12,24 @@ class Teachers extends Component {
       { id: 5, name: 'Peralta' }
     ]
   };
-  showCalendar = () => {};
   render() {
     return (
       <React.Fragment>
         <h1>Class Scheduler</h1>
-        <h3 className='heading'>Teachers:</h3>
-        <div className='teachers'>
+        <h3 className='teachers__heading'>Teachers:</h3>
+        <div className='teachers__all'>
           {this.state.teachers.map((teacherObj) => {
             return (
-              <div
-                className='teacher'
+              <Link
+                className='teachers__teacher'
                 key={teacherObj.id}
-                onClick={this.showCalendar}
+                to={{
+                  pathname: `/teacher/${teacherObj.id}`,
+                  teacherObj: teacherObj
+                }}
               >
                 {teacherObj.name}
-              </div>
+              </Link>
             );
           })}
         </div>

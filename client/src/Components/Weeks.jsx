@@ -2,20 +2,59 @@ import React, { Component } from 'react';
 import '../Styles/Weeks.css';
 
 class Weeks extends Component {
-  state = { currWeek: 1 };
+  state = { currWeek: 1, allSlots: this.props.allSlots };
+
+  prev = () => {
+    if (this.state.currWeek > 1)
+      this.setState({ currWeek: this.state.currWeek - 1 });
+  };
+  next = () => {
+    if (this.state.currWeek < 4)
+      this.setState({ currWeek: this.state.currWeek + 1 });
+  };
+
+  getCurrSlots = () => {
+    let currSlot = [];
+    this.state.allSlots.forEach((slot) => {
+      let date = new Date(Date.parse(slot.date));
+      slot.date = date;
+      // console.log(Math.floor(date.getDate() / 7) + 1, this.state.currWeek);
+      if (Math.floor(date.getDate() / 7) + 1 == this.state.currWeek)
+        currSlot.push(slot);
+    });
+    return currSlot;
+  };
+
   render() {
     let days = [...Array(28).keys()];
     let hours = [...Array(24).keys()];
     let daysOfWeek = [...Array(7).keys()];
+    const currSlots = this.getCurrSlots();
+    // console.log(currSlots);
 
-    console.log(this.state);
+    let hourWeekSlots = [];
+    hours.forEach((hour) => {
+      let hasSlot = false;
+      currSlots.forEach((slot) => {
+        if (slot.startTime.split(':')[0] == hour) {
+          hourWeekSlots.push({
+            slot: slot,
+            hour: hour
+          });
+          hasSlot = true;
+        }
+      });
+      if (!hasSlot) hourWeekSlots.push({ hour: hour });
+    });
+    // console.log(hourWeekSlots);
+
     return (
       <React.Fragment>
         {' '}
         <div className='week__controls'>
-          <i>prev</i>
-          <h1>Week {this.state.currWeek + 1}</h1>
-          <i>next</i>
+          <i onClick={this.prev}>prev</i>
+          <h1>Week {this.state.currWeek}</h1>
+          <i onClick={this.next}>next</i>
         </div>
         <div className='week__weekdays'>
           <div className='week__weekday'>Mon</div>
@@ -28,31 +67,38 @@ class Weeks extends Component {
         </div>{' '}
         <div className='week__allDays'>
           {days.map((day) =>
-            day >= this.state.currWeek * 7 &&
-            day < this.state.currWeek * 7 + 7 ? (
-              <div
-                className='week__dateCells'
-                key={day}
-                onClick={this.addClass}
-              >
+            day >= (this.state.currWeek - 1) * 7 &&
+            day < (this.state.currWeek - 1) * 7 + 7 ? (
+              <div className='week__dateCells' key={day}>
                 <i className='week__date'>{day + 1}</i>
               </div>
             ) : (
-              <React.Fragment key={day}></React.Fragment>
+              <></>
             )
           )}
         </div>
         <div className='week__hours'>
-          {hours.map((hour) => (
-            <div className='week__hourCells' key={hour}>
-              <i className='week__hour'>{hour + 1}:00</i>
+          {hourWeekSlots.map((hourWeekSlot) => (
+            <div className='week__hourCells' key={hourWeekSlot.hour}>
+              <i className='week__hour'>{hourWeekSlot.hour}:00</i>
               <div className='week__dayCells'>
                 {daysOfWeek.map((dayOfWeek) => (
-                  <div
-                    className='week__dayCell'
-                    key={dayOfWeek}
-                    onClick={this.addClass}
-                  ></div>
+                  <div className='week__dayCell' key={dayOfWeek}>
+                    {hourWeekSlot.slot &&
+                    this.state.currWeek ==
+                      Math.floor(hourWeekSlot.slot.date.getDate() / 7) + 1 &&
+                    dayOfWeek == hourWeekSlot.slot.date.getDate() % 7 ? (
+                      <React.Fragment>
+                        <strong>{hourWeekSlot.slot.class} </strong>
+                        <div>
+                          [{hourWeekSlot.slot.startTime} -{' '}
+                          {hourWeekSlot.slot.endTime}]
+                        </div>
+                      </React.Fragment>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>

@@ -48,4 +48,9 @@
 .week__dayCell {
   height: 100%;
   border-right: 1px solid lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: auto;
 }
