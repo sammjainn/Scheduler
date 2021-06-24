@@ -12,3 +12,12 @@
 .calendar__menuOptions:hover {
   cursor: pointer;
 }
+.calendar__closeModal {
+  z-index: 2;
+  position: absolute;
+  top: 10rem;
+}
+.prevPage {
+  text-decoration: none;
+  color: black;
+}

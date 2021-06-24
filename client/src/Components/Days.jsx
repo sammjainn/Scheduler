@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../Styles/Days.css';
 
 class Days extends Component {
-  state = { currDate: 20, allSlots: this.props.allSlots };
+  state = { currDate: 15, allSlots: this.props.allSlots };
 
   prev = () => {
     if (this.state.currDate > 1)

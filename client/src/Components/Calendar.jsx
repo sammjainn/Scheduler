@@ -4,15 +4,19 @@ import Weeks from './Weeks';
 import Months from './Months';
 import '../Styles/Calendar.css';
 import axios from 'axios';
+import AddSlot from './AddSlot';
+import { Link } from 'react-router-dom';
 
 class Calendar extends Component {
   state = {
     viewStates: {
-      dayView: false,
+      dayView: true, // default
       weekView: false,
-      monthView: true // default
+      monthView: false
     },
-    allSlots: []
+    allSlots: [],
+    showModal: false,
+    teacherObj: ''
   };
 
   async componentDidMount() {
@@ -57,6 +61,9 @@ class Calendar extends Component {
     return (
       <React.Fragment>
         <ul className='calendar__menu'>
+          <Link to='/' className='prevPage calendar__menuOptions'>
+            home
+          </Link>
           <li
             className='days calendar__menuOptions'
             onClick={() => {
@@ -81,10 +88,33 @@ class Calendar extends Component {
           >
             Month
           </li>
-          <li onClick={this.addSlot}>+</li>
+          <li
+            className='addslot calendar__menuOptions'
+            onClick={() => {
+              this.setState({ showModal: true });
+            }}
+          >
+            +
+          </li>
         </ul>
 
         {view}
+
+        {this.state.showModal ? (
+          <React.Fragment>
+            <button
+              className='calendar__menuOptions calendar__closeModal'
+              onClick={() => {
+                this.setState({ showModal: false });
+              }}
+            >
+              X
+            </button>
+            <AddSlot teacher={this.state.teacherObj.id} />
+          </React.Fragment>
+        ) : (
+          <></>
+        )}
       </React.Fragment>
     );
   }

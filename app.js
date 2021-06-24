@@ -80,6 +80,23 @@ app.post('/addslot2', (req, res) => {
   });
 });
 
+// Insert slot
+app.post('/addslot', (req, res) => {
+  let slot = {
+    id: uid(),
+    teacherId: req.body.teacher,
+    class: req.body.class,
+    date: req.body.date,
+    startTime: req.body.startTime,
+    endTime: req.body.endTime
+  };
+  let sql = 'INSERT INTO slots SET ?';
+  let query = db.query(sql, slot, (err, results) => {
+    if (err) throw err;
+    res.send(results);
+  });
+});
+
 // Select all slots
 app.get('/getslots', (req, res) => {
   let sql = 'SELECT * from slots';
