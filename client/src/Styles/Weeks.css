@@ -1,0 +1,51 @@
+.week__controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.week__weekdays {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: lightgray;
+  padding: 0.2rem 0;
+}
+.week__allDays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.week__dateCells {
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid lightgray;
+  background-color: lightseagreen;
+}
+
+.week__hours {
+  overflow: auto;
+  height: 50vh;
+  margin-bottom: 2rem;
+}
+.week__hourCells {
+  border: 1px solid lightgray;
+  height: 5rem;
+  position: relative;
+}
+.week__hour {
+  width: fit-content;
+  position: absolute;
+  left: 4px;
+  font-weight: bold;
+}
+.week__dayCells {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  height: 100%;
+}
+.week__dayCell {
+  height: 100%;
+  border-right: 1px solid lightgray;
+}

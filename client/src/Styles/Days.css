@@ -1,0 +1,22 @@
+.day__controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.day__hours {
+  overflow: auto;
+  height: 50vh;
+  margin-bottom: 2rem;
+}
+.day__hourCells {
+  border: 1px solid lightgray;
+  height: 5rem;
+  position: relative;
+}
+.day__hour {
+  width: fit-content;
+  position: absolute;
+  left: 4px;
+  font-weight: bold;
+}

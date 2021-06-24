@@ -1,0 +1,14 @@
+.menu {
+  width: 90%;
+  display: flex;
+  justify-content: space-evenly;
+}
+.menu-options {
+  list-style: none;
+  background: cadetblue;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+.menu-options:hover {
+  cursor: pointer;
+}

@@ -1,0 +1,21 @@
+.heading {
+  font-size: 1.5rem;
+}
+.teachers {
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 2rem;
+  padding: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+.teacher {
+  height: 6rem;
+  width: 10rem;
+  background-color: #ff8f5c;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}

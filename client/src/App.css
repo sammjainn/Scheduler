@@ -1,0 +1,13 @@
+.App {
+  text-align: center;
+}
+.container {
+  width: 80vw;
+  max-width: 900px;
+  margin: auto;
+  height: 80vh;
+  margin-top: 3rem;
+  background-color: #ffe5d9;
+  border-radius: 15px;
+  padding: 1rem;
+}
