@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import '../Styles/AddSlot.css';
 import axios from 'axios';
-
 class AddSlot extends Component {
   state = {
     formObj: {
@@ -32,24 +31,29 @@ class AddSlot extends Component {
   addSlot = (e) => {
     e.preventDefault();
     let dataObj = this.state.formObj;
-    axios.post('http://localhost:5000/addslot', dataObj).then((data) => {
-      alert('new slot created');
-      console.log(data);
-    });
+    axios.post('http://localhost:5000/addslot', dataObj).then(
+      (data) => {
+        alert('New slot created successully');
+        console.log(data);
+      },
+      (error) => {
+        alert(
+          'Failed to create slot due to overlapping or invalid values, please try again'
+        );
+        console.log(error);
+      }
+    );
     this.state.toggleState();
   };
   render() {
-    console.log(this.state);
+    // console.log(this.state.formObj.date);
 
     return (
       <div className='modal__overlay'>
         <div className='modal__container'>
-          <button className='modal__close' onClick={this.state.toggleState}>
-            X
-          </button>
           <form className='modal__form'>
             <div className='modal__formGroup'>
-              <label>Choose teacher</label>
+              <label>Choose teacher:</label>
               <select
                 name='teacher'
                 onChange={(e) => {
@@ -132,13 +136,18 @@ class AddSlot extends Component {
               />
             </div>
 
-            <button
-              className='modal__submit'
-              type='submit'
-              onClick={this.addSlot}
-            >
-              Add slot
-            </button>
+            <div className='modal__actions'>
+              <button className='modal__close' onClick={this.state.toggleState}>
+                Close
+              </button>
+              <button
+                className='modal__submit'
+                type='submit'
+                onClick={this.addSlot}
+              >
+                Add slot
+              </button>
+            </div>
           </form>
         </div>
       </div>

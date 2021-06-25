@@ -2,17 +2,23 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin: 1rem 0;
 }
 
 .day__hours {
   overflow: auto;
-  height: 50vh;
-  margin-bottom: 2rem;
+  height: 45vh;
 }
 .day__hourCells {
-  border: 1px solid lightgray;
+  border: 1px solid cadetblue;
   height: 5rem;
   position: relative;
+}
+.day__hourCells:first-child {
+  border-top: 2px solid cadetblue;
+}
+.day__hourCells:last-child {
+  border-bottom: 2px solid cadetblue;
 }
 .day__hour {
   width: fit-content;
@@ -30,6 +36,20 @@
   /* height: 2rem; */
   width: fit-content;
   border-radius: 5px;
-  background-color: lightskyblue;
+  background-color: #197bbd;
   padding: 0.5rem;
+  color: white;
+}
+.day__hourCells:hover {
+  background-color: lightgray;
+}
+.day__prev,
+.day__next {
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+}
+.day__prev:hover,
+.day__next:hover {
+  cursor: pointer;
+  background-color: lightgray;
 }

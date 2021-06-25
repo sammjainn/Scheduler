@@ -56,9 +56,13 @@ class Weeks extends Component {
       <React.Fragment>
         {' '}
         <div className='week__controls'>
-          <i onClick={this.prev}>prev</i>
+          <i onClick={this.prev} className='week__prev'>
+            prev
+          </i>
           <h1>Week {this.state.currWeek}</h1>
-          <i onClick={this.next}>next</i>
+          <i onClick={this.next} className='week__next'>
+            next
+          </i>
         </div>
         <div className='week__weekdays'>
           <div className='week__weekday'>Mon</div>
@@ -96,13 +100,13 @@ class Weeks extends Component {
                     this.state.currWeek ==
                       Math.floor(hourWeekSlot.slot.date.getDate() / 7) + 1 &&
                     dayOfWeek + 1 == hourWeekSlot.slot.date.getDate() % 7 ? (
-                      <React.Fragment>
+                      <div className='week__slotBooked'>
                         <strong>{hourWeekSlot.slot.class} </strong>
                         <div>
                           [{hourWeekSlot.slot.startTime} -{' '}
                           {hourWeekSlot.slot.endTime}]
                         </div>
-                      </React.Fragment>
+                      </div>
                     ) : (
                       <></>
                     )}

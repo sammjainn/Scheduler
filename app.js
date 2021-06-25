@@ -39,7 +39,7 @@ app.get('/createdb', (req, res) => {
 // Create table
 app.get('/createslotstable', (req, res) => {
   let sql =
-    'CREATE TABLE slots(id INT(6) PRIMARY KEY, teacherId TINYINT(1) NOT NULL, class VARCHAR(255) NOT NULL, date DATE NOT NULL, startTime VARCHAR(5) NOT NULL, endTime VARCHAR(5) NOT NULL)';
+    'CREATE TABLE slots(id INT(6) PRIMARY KEY, teacherId TINYINT(1) NOT NULL, class VARCHAR(255) NOT NULL, date VARCHAR(10) NOT NULL, startTime VARCHAR(5) NOT NULL, endTime VARCHAR(5) NOT NULL)';
   db.query(sql, (err, results) => {
     if (err) throw err;
     res.send(results);
@@ -93,19 +93,15 @@ app.post('/addslot', (req, res) => {
   console.log(slot);
 
   // check overlapping
-  let before = '',
-    after = '';
   // previous slot
-  let sql = `SELECT startTime, endTime from slots where date=${slot.date} and startTime in (SELECT max(startTime) from slots where teacherId = ${slot.teacherId} and startTime <= '${slot.startTime}')`;
-  let query = db.query(sql, (err, results) => {
+  let sql = `SELECT startTime, endTime from slots where startTime in (SELECT max(startTime) from slots where date='${slot.date}' and teacherId = ${slot.teacherId} and startTime < '${slot.startTime}')`;
+  let query = db.query(sql, (err, before) => {
     if (err) throw err;
-    before = results;
 
     // next slot
-    sql = `SELECT startTime, endTime from slots where date=${slot.date} and startTime in (SELECT min(startTime) from slots where teacherId = ${slot.teacherId} and startTime >= '${slot.startTime}')`;
-    query = db.query(sql, (err, results) => {
+    sql = `SELECT startTime, endTime from slots where startTime in (SELECT min(startTime) from slots where date='${slot.date}' and  teacherId = ${slot.teacherId} and startTime >= '${slot.startTime}')`;
+    query = db.query(sql, (err, after) => {
       if (err) throw err;
-      after = results;
 
       console.log(before, after);
       let flag = true;
@@ -118,8 +114,10 @@ app.post('/addslot', (req, res) => {
         sql = 'INSERT INTO slots SET ?';
         query = db.query(sql, slot, (err, results) => {
           if (err) throw err;
-          res.sendStatus(200).json(results);
+          res.send(results);
         });
+      } else {
+        res.sendStatus(400);
       }
     });
   });

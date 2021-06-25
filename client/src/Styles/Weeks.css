@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin: 1rem auto;
 }
 .week__weekdays {
   display: flex;
@@ -25,12 +26,11 @@
 }
 
 .week__hours {
-  overflow: auto;
-  height: 50vh;
-  margin-bottom: 2rem;
+  overflow-y: auto;
+  height: 40vh;
 }
 .week__hourCells {
-  border: 1px solid lightgray;
+  border: 1px solid cadetblue;
   height: 5rem;
   position: relative;
 }
@@ -47,10 +47,28 @@
 }
 .week__dayCell {
   height: 100%;
-  border-right: 1px solid lightgray;
+  border-right: 1px solid cadetblue;
+  overflow: auto;
+}
+.week__dayCell:hover {
+  background-color: lightgray;
+}
+.week__prev,
+.week__next {
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+}
+.week__prev:hover,
+.week__next:hover {
+  cursor: pointer;
+  background-color: lightgray;
+}
+.week__slotBooked {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  overflow: auto;
+  height: 100%;
+  background-color: #197bbd;
+  color: white;
 }

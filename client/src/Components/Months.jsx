@@ -30,7 +30,7 @@ class Months extends Component {
       let hasSlot = false;
       currSlots.forEach((slot) => {
         // console.log(slot.date.getDate() == day + 1);
-        if (slot.date.getDate() == day + 1) {
+        if (slot.date.getDate() === day + 1) {
           obj.push({ slot: slot, day: day });
           hasSlot = true;
         }
@@ -45,9 +45,9 @@ class Months extends Component {
     return (
       <React.Fragment>
         <div className='month__controls'>
-          <i>prev</i>
+          <i className='month__prev'>prev</i>
           <h1>June 2021</h1>
-          <i>next</i>
+          <i className='month__next'>next</i>
         </div>
         <div className='month__weekdays'>
           <div className='month__weekday'>Mon</div>
@@ -71,7 +71,9 @@ class Months extends Component {
                   <div className='month__daySlots'>
                     {daySlot.map((item) => {
                       return (
-                        <div className='month__daySlot'>{item.slot.class}</div>
+                        <div className='month__daySlot' key={item}>
+                          {item.slot.class}
+                        </div>
                       );
                     })}
                   </div>

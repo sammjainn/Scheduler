@@ -2,15 +2,31 @@
   width: 90%;
   display: flex;
   justify-content: space-evenly;
+  margin: 0.5rem auto;
 }
 .calendar__menuOptions {
   list-style: none;
   background: cadetblue;
   padding: 0.5rem 1rem;
   border-radius: 5px;
+  width: 5rem;
 }
-.calendar__menuOptions:hover {
+.prevPage,
+.addSlot {
+  list-style: none;
+  font-size: 2rem;
+  border-radius: 50%;
+  height: 2.5rem;
+  width: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.calendar__menuOptions:hover,
+.prevPage:hover,
+.addSlot:hover {
   cursor: pointer;
+  background-color: #4c7e80;
 }
 .calendar__closeModal {
   z-index: 2;

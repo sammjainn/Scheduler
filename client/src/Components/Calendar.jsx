@@ -6,6 +6,8 @@ import '../Styles/Calendar.css';
 import axios from 'axios';
 import AddSlot from './AddSlot';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faHome } from '@fortawesome/free-solid-svg-icons';
 
 class Calendar extends Component {
   state = {
@@ -21,7 +23,7 @@ class Calendar extends Component {
 
   async componentDidMount() {
     // from <Link>
-    let teacherId = this.props.match.params.teacherid;
+    // let teacherId = this.props.match.params.teacherid;
     let teacherObj = this.props.location.teacherObj;
 
     axios.get(`http://localhost:5000/getslots/${teacherObj.id}`).then(
@@ -63,8 +65,8 @@ class Calendar extends Component {
     return (
       <React.Fragment>
         <ul className='calendar__menu'>
-          <Link to='/' className='prevPage calendar__menuOptions'>
-            home
+          <Link to='/' className='prevPage'>
+            <FontAwesomeIcon icon={faHome} />
           </Link>
           <li
             className='days calendar__menuOptions'
@@ -91,12 +93,12 @@ class Calendar extends Component {
             Month
           </li>
           <li
-            className='addslot calendar__menuOptions'
+            className='addSlot'
             onClick={() => {
               this.setState({ showModal: true });
             }}
           >
-            +
+            <FontAwesomeIcon icon={faPlus} />
           </li>
         </ul>
 

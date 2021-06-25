@@ -29,7 +29,7 @@ class Days extends Component {
   };
 
   render() {
-    let days = [...Array(28).keys()];
+    // let days = [...Array(28).keys()];
     const currSlot = this.getCurrSlots();
     let hours = [...Array(24).keys()];
     let hourSlots = [];
@@ -50,9 +50,13 @@ class Days extends Component {
       <React.Fragment>
         {' '}
         <div className='day__controls'>
-          <i onClick={this.prev}>prev</i>
+          <i onClick={this.prev} className='day__prev'>
+            prev
+          </i>
           <h1>Date: {this.state.currDate}</h1>
-          <i onClick={this.next}>next</i>
+          <i onClick={this.next} className='day__next'>
+            next
+          </i>
         </div>
         <div className='day__hours'>
           {hourSlots.map((hourObj) => (

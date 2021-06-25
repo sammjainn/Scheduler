@@ -28,7 +28,7 @@ class Teachers extends Component {
                   teacherObj: teacherObj
                 }}
               >
-                {teacherObj.name}
+                <div className='teachers__teacherDiv'>{teacherObj.name}</div>
               </Link>
             );
           })}
