@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(cors());
 
 // Create db
-app.post('/createdb', (req, res) => {
+app.get('/createdb', (req, res) => {
   let sql = 'CREATE DATABASE nodescheduler';
   let query = db.query(sql, (err, result) => {
     if (err) throw err;
@@ -37,10 +37,10 @@ app.post('/createdb', (req, res) => {
 });
 
 // Create table
-app.post('/createslotstable', (req, res) => {
+app.get('/createslotstable', (req, res) => {
   let sql =
-    'CREATE TABLE slots(id INT(6) PRIMARY KEY, teacherId TINYINT(1) NOT NULL, class VARCHAR(255), date DATE NOT NULL, startTime VARCHAR(5), endTime VARCHAR(5))';
-  db.query(sql, (err, result) => {
+    'CREATE TABLE slots(id INT(6) PRIMARY KEY, teacherId TINYINT(1) NOT NULL, class VARCHAR(255) NOT NULL, date DATE NOT NULL, startTime VARCHAR(5) NOT NULL, endTime VARCHAR(5) NOT NULL)';
+  db.query(sql, (err, results) => {
     if (err) throw err;
     res.send(results);
   });
@@ -57,7 +57,7 @@ app.post('/addslot1', (req, res) => {
     endTime: '02:00'
   };
   let sql = 'INSERT INTO slots SET ?';
-  let query = db.query(sql, slot, (err, result) => {
+  let query = db.query(sql, slot, (err, results) => {
     if (err) throw err;
     res.send(results);
   });
@@ -90,10 +90,38 @@ app.post('/addslot', (req, res) => {
     startTime: req.body.startTime,
     endTime: req.body.endTime
   };
-  let sql = 'INSERT INTO slots SET ?';
-  let query = db.query(sql, slot, (err, results) => {
+  console.log(slot);
+
+  // check overlapping
+  let before = '',
+    after = '';
+  // previous slot
+  let sql = `SELECT startTime, endTime from slots where date=${slot.date} and startTime in (SELECT max(startTime) from slots where teacherId = ${slot.teacherId} and startTime <= '${slot.startTime}')`;
+  let query = db.query(sql, (err, results) => {
     if (err) throw err;
-    res.send(results);
+    before = results;
+
+    // next slot
+    sql = `SELECT startTime, endTime from slots where date=${slot.date} and startTime in (SELECT min(startTime) from slots where teacherId = ${slot.teacherId} and startTime >= '${slot.startTime}')`;
+    query = db.query(sql, (err, results) => {
+      if (err) throw err;
+      after = results;
+
+      console.log(before, after);
+      let flag = true;
+      if (before.length > 0 && before[0].endTime > slot.startTime) flag = false;
+      if (after.length > 0 && after[0].startTime < slot.endTime) flag = false;
+      console.log(flag);
+
+      // insert slot if not overlapping
+      if (flag) {
+        sql = 'INSERT INTO slots SET ?';
+        query = db.query(sql, slot, (err, results) => {
+          if (err) throw err;
+          res.sendStatus(200).json(results);
+        });
+      }
+    });
   });
 });
 

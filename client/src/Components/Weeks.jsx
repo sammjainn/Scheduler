@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import '../Styles/Weeks.css';
-
+import AddSlot from './AddSlot';
 class Weeks extends Component {
-  state = { currWeek: 1, allSlots: this.props.allSlots };
+  state = { currWeek: 1, allSlots: this.props.allSlots, showModal: false };
 
   prev = () => {
     if (this.state.currWeek > 1)
@@ -11,6 +11,10 @@ class Weeks extends Component {
   next = () => {
     if (this.state.currWeek < 4)
       this.setState({ currWeek: this.state.currWeek + 1 });
+  };
+
+  toggleState = () => {
+    this.setState({ showModal: false });
   };
 
   getCurrSlots = () => {
@@ -83,11 +87,15 @@ class Weeks extends Component {
               <i className='week__hour'>{hourWeekSlot.hour}:00</i>
               <div className='week__dayCells'>
                 {daysOfWeek.map((dayOfWeek) => (
-                  <div className='week__dayCell' key={dayOfWeek}>
+                  <div
+                    className='week__dayCell'
+                    key={dayOfWeek + 1}
+                    onClick={() => this.setState({ showModal: true })}
+                  >
                     {hourWeekSlot.slot &&
                     this.state.currWeek ==
                       Math.floor(hourWeekSlot.slot.date.getDate() / 7) + 1 &&
-                    dayOfWeek == hourWeekSlot.slot.date.getDate() % 7 ? (
+                    dayOfWeek + 1 == hourWeekSlot.slot.date.getDate() % 7 ? (
                       <React.Fragment>
                         <strong>{hourWeekSlot.slot.class} </strong>
                         <div>
@@ -104,6 +112,11 @@ class Weeks extends Component {
             </div>
           ))}
         </div>
+        {this.state.showModal ? (
+          <AddSlot toggleState={this.toggleState} />
+        ) : (
+          <></>
+        )}
       </React.Fragment>
     );
   }

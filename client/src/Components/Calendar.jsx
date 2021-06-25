@@ -47,7 +47,9 @@ class Calendar extends Component {
     this.setState({ viewStates: newStates });
   };
 
-  addSlot = () => {};
+  toggleState = () => {
+    this.setState({ showModal: false });
+  };
 
   render() {
     let viewStates = this.state.viewStates;
@@ -101,17 +103,10 @@ class Calendar extends Component {
         {view}
 
         {this.state.showModal ? (
-          <React.Fragment>
-            <button
-              className='calendar__menuOptions calendar__closeModal'
-              onClick={() => {
-                this.setState({ showModal: false });
-              }}
-            >
-              X
-            </button>
-            <AddSlot teacher={this.state.teacherObj.id} />
-          </React.Fragment>
+          <AddSlot
+            teacher={this.state.teacherObj.id}
+            toggleState={this.toggleState}
+          />
         ) : (
           <></>
         )}

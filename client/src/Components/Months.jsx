@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import '../Styles/Months.css';
+import AddSlot from './AddSlot';
 class Months extends Component {
   state = {
-    allSlots: this.props.allSlots
+    allSlots: this.props.allSlots,
+    showModal: false
   };
 
   getCurrSlots = () => {
@@ -13,6 +15,10 @@ class Months extends Component {
       currSlot.push(slot);
     });
     return currSlot;
+  };
+
+  toggleState = () => {
+    this.setState({ showModal: false });
   };
 
   render() {
@@ -54,7 +60,11 @@ class Months extends Component {
         </div>
         <div className='month__allDays'>
           {daySlots.map((daySlot) => (
-            <div className='month__cells' key={daySlot.day}>
+            <div
+              className='month__cells'
+              key={daySlot.day}
+              onClick={() => this.setState({ showModal: true })}
+            >
               {daySlot.length > 0 ? (
                 <React.Fragment>
                   <i className='month__date'>{daySlot[0].day + 1}</i>
@@ -72,6 +82,11 @@ class Months extends Component {
             </div>
           ))}
         </div>
+        {this.state.showModal ? (
+          <AddSlot toggleState={this.toggleState} />
+        ) : (
+          <></>
+        )}
       </React.Fragment>
     );
   }

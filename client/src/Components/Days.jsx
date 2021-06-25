@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import '../Styles/Days.css';
+import AddSlot from './AddSlot';
 
 class Days extends Component {
-  state = { currDate: 15, allSlots: this.props.allSlots };
+  state = { currDate: 15, allSlots: this.props.allSlots, showModal: false };
 
   prev = () => {
     if (this.state.currDate > 1)
@@ -11,6 +12,10 @@ class Days extends Component {
   next = () => {
     if (this.state.currDate < 28)
       this.setState({ currDate: this.state.currDate + 1 });
+  };
+
+  toggleState = () => {
+    this.setState({ showModal: false });
   };
 
   getCurrSlots = () => {
@@ -51,7 +56,11 @@ class Days extends Component {
         </div>
         <div className='day__hours'>
           {hourSlots.map((hourObj) => (
-            <div className='day__hourCells' key={hourObj.hour}>
+            <div
+              className='day__hourCells'
+              key={hourObj.hour}
+              onClick={() => this.setState({ showModal: true })}
+            >
               <i className='day__hour'>{hourObj.hour}:00</i>
               <div className='day__slots'>
                 {hourObj.slot ? (
@@ -66,6 +75,11 @@ class Days extends Component {
             </div>
           ))}
         </div>
+        {this.state.showModal ? (
+          <AddSlot date={this.state.currDate} toggleState={this.toggleState} />
+        ) : (
+          <></>
+        )}
       </React.Fragment>
     );
   }
